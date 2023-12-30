@@ -1128,6 +1128,24 @@ const isNumber = ( value ) => {
 }
 
 
+function loadFileAsString(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+      const fileContent = event.target.result;
+      resolve(fileContent);
+    };
+
+    reader.onerror = function(event) {
+      reject(event.target.error);
+    };
+
+    reader.readAsText(file);
+  });
+}
+
+
 export {
 
 	// base ui functions
@@ -1201,4 +1219,5 @@ export {
 
 	make_debounce,
 	isNumber,
+	loadFileAsString,
 }

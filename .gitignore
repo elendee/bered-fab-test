@@ -1,3 +1,7 @@
 .*
 !.gitignore
 env.js
+fabric.min.js
+node_modules/*
+_storage/*
+package-lock.json

@@ -1,7 +1,9 @@
 import env from './env.js'
 import * as lib from './js/lib.js'
 
+
 // console.log('asdf')
+
 
 const canvas = lib.b('canvas', 'my-canvas')
 canvas.width = window.innerWidth
@@ -20,15 +22,28 @@ const testsvg = env.SAMPLE_SVG
 
 ;(async() => {
 
-	let alerting_fail = setTimeout(() => {
-		hal('error', 'probably invalid SVG', 5000 )
-	})
+	// let alerting_fail = setTimeout(() => {
+	// 	hal('error', 'probably invalid SVG', 3000 )
+	// })
+
+	const svg_string = await lib.loadFileAsString( testsvg )
+
+	console.log('party:" ', svg_string )
 
 	let objects = await new Promise( resolve => {
-		fabric.loadSVGFromURL( testsvg,  ( objects, options ) => {
-			resolve( objects )
-			clearTimeout( alerting_fail )
-		})
+		try{
+			fabric.loadSVGFromURL( testsvg,  ( objects, options ) => {
+				setTimeout(() => resolve, 5000 )
+				// clearTimeout( alerting_fail )
+			}, err => {
+				console.log('yea errr...')
+				hal('error', 'probably invalid SVG', 3000 )
+
+			})			
+		}catch( err){
+			console.log('catch err: ', err )
+		}
+
 	})
 
 	window.loaded_objs = objects
