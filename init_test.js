@@ -15,29 +15,26 @@ const fCanvas = window.fCanvas = new fabric.Canvas( canvas, {
 console.log('bad: ', env.BAD_SVG.replace('_user_', '').replace('.svg', '') )
 console.log('good: ', env.SAMPLE_SVG.replace('_user_', '').replace('.svg', '') )
 
-const testsvg = '/clients/bered_arcgis/bered_svg/' + env.BAD_SVG
+const testsvg = env.SAMPLE_SVG
+// const testsvg = '/clients/bered_arcgis/bered_svg/' + env.BAD_SVG
 
-fabric.loadSVGFromURL( testsvg,  ( objects, options ) => {
+;(async() => {
+
+	let alerting_fail = setTimeout(() => {
+		hal('error', 'probably invalid SVG', 5000 )
+	})
+
+	let objects = await new Promise( resolve => {
+		fabric.loadSVGFromURL( testsvg,  ( objects, options ) => {
+			resolve( objects )
+			clearTimeout( alerting_fail )
+		})
+	})
 
 	window.loaded_objs = objects
 
 	for( let i = 0; i < loaded_objs.length; i++ ){
-
         fCanvas.add( loaded_objs[i] )
-
-	//     setTimeout(() => {
-	//         loaded_objs[i].left += 20 - ( Math.random() * 40 )
-	//         loaded_objs[i].top += 20 - ( Math.random() * 40 )
-	//         fCanvas.requestRenderAll()
-	//     }, i * Math.random() * 100 )
 	}
 
-	// let shifting = setInterval(() => {
-	// 	const obj = loaded_objs[ Math.floor( Math.random() * loaded_objs.length ) ]
-    //     obj.left += 20 - ( Math.random() * 40 )
-    //     obj.top += 20 - ( Math.random() * 40 )
-    //     fCanvas.requestRenderAll()
-
-	// }, 20 )
-
-})
+})()
