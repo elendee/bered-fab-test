@@ -20,7 +20,18 @@ const testsvg = env.SAMPLE_SVG
 
 ;(async() => {
 
-	const svg_string = document.getElementById('svg').innerHTML
+	const svg = document.getElementById('svg')
+
+	const styles = svg.querySelectorAll('style')
+	for( const s of styles ){
+		s.remove()
+	}
+
+	const svg_string = svg.innerHTML
+
+
+
+
 
 	// console.log('party:" ', svg_string )
 

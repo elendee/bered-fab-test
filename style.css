@@ -1,5 +1,7 @@
-/*asdf*/
-
 body {
 	margin: 0px;
+}
+
+#svg{
+  display: none;
 }
